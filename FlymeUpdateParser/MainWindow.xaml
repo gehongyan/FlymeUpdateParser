@@ -1,0 +1,15 @@
+﻿<Window x:Class="FlymeUpdateParser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlymeUpdateParser"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="TextBox_Url" HorizontalAlignment="Left" Height="23" Margin="20,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="635"/>
+        <Button x:Name="Button_Access" Content="Access" HorizontalAlignment="Left" Margin="665,27,0,0" VerticalAlignment="Top" Width="90" Click="Button_Access_Click"/>
+        <TextBox x:Name="TextBox_Item" HorizontalAlignment="Left" Height="318" Margin="20,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="710" AcceptsReturn="True"/>
+
+    </Grid>
+</Window>
