@@ -8,8 +8,10 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TextBox x:Name="TextBox_Url" HorizontalAlignment="Left" Height="23" Margin="20,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="635"/>
-        <Button x:Name="Button_Access" Content="Access" HorizontalAlignment="Left" Margin="665,27,0,0" VerticalAlignment="Top" Width="90" Click="Button_Access_Click"/>
-        <TextBox x:Name="TextBox_Item" HorizontalAlignment="Left" Height="318" Margin="20,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="710" AcceptsReturn="True"/>
+        <Button x:Name="Button_Access" Content="Access" HorizontalAlignment="Left" Margin="665,25,0,0" VerticalAlignment="Top" Width="90" Click="Button_Access_Click" Height="23"/>
+        <TextBox x:Name="TextBox_Item" HorizontalAlignment="Left" Height="318" Margin="20,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="635" AcceptsReturn="True"/>
+        <Button x:Name="Button_LoadWiki" Content="Load Wiki" HorizontalAlignment="Left" Margin="665,70,0,0" VerticalAlignment="Top" Width="90" Height="23" Click="Button_LoadWiki_Click"/>
+        <Button x:Name="Button_InsertItems" Content="Insert Items" HorizontalAlignment="Left" Margin="665,115,0,0" VerticalAlignment="Top" Width="90" Height="23" Click="Button_InsertItems_Click"/>
 
     </Grid>
 </Window>
