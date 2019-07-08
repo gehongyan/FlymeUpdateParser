@@ -33,7 +33,6 @@ namespace FlymeUpdateParser
                 stringItems = stringItems.Replace("\r\n", "").Replace("\r", "").Replace("&nbsp;", "");
                 MatchCollection matches = Regex.Matches(stringItems, stringRegexMatch, RegexOptions.IgnoreCase);
                 releaseDate = Regex.Matches(stringItems, @"リリース日は([0-9]{4})年([0-9]{1,2})月([0-9]{1,2})日。");
-                TextBox_Item.Text = "";
                 foreach (Match match in matches)
                 {
                     TextBox_Item.Text += ProcessItem(match.Value);
@@ -96,7 +95,8 @@ namespace FlymeUpdateParser
                 model = Regex.Replace(model, @"m1\smetal", @"魅蓝 metal");
                 model = Regex.Replace(model, @"Note([89])", @"魅族 note$1");
                 model = Regex.Replace(model, @"[mM]([12356]) [nN]ote", @"魅蓝 note$1");
-                model = Regex.Replace(model, @"[mM]([123568])([scT])*", @"魅蓝 $1$2");
+                model = Regex.Replace(model, @"[mM]([123568][scT]*)$", @"魅蓝 $1");
+                model = Regex.Replace(model, @"15 Lite", @"M15");
                 stringCountry = "国内版";
             }
             string updateDate;
@@ -137,8 +137,8 @@ namespace FlymeUpdateParser
 
         private void Button_InsertItems_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
                 StreamReader streamReader = new StreamReader(fileStream, Encoding.UTF8);
                 string stringFullWiki = streamReader.ReadToEnd();
@@ -146,17 +146,22 @@ namespace FlymeUpdateParser
                 foreach (Match item in items)
                 {
                     string stringComment = Regex.Replace(item.Value, @"(<!--.*-->)(.*)", "$1");
-                    string stringMatch = (@"(" + stringComment + @"(\n.*){2}\n)").Replace(@"|", @"\|");
-                    string stringReplace = @"$1" + Regex.Replace(item.Value, @"(<!--.*-->)(.*)", @"$2\n") ;
-                    stringFullWiki = Regex.Replace(stringFullWiki, stringMatch, stringReplace, RegexOptions.IgnoreCase);
+                    //string stringMatch = (@"(" + stringComment + @"(\n.*){2}\n)").Replace(@"|", @"\|");
+                    //string stringReplace = @"$1" + Regex.Replace(item.Value, @"(<!--.*-->)(.*)", @"$2\n");
+                    string stringNewItem = Regex.Replace(item.Value, @"(<!--.*-->)(.*)", "\n$2");
+                    int intIndex = stringFullWiki.IndexOf(@"|----|----|----|----|----|----|----|----|", stringFullWiki.LastIndexOf(stringComment));
+                    stringFullWiki = stringFullWiki.Insert(intIndex + (@"|----|----|----|----|----|----|----|----|").Length, stringNewItem);
+
+                    //stringFullWiki = Regex.Replace(stringFullWiki, stringMatch, stringReplace, RegexOptions.IgnoreCase);
                 }
+                stringFullWiki = Regex.Replace(stringFullWiki, @"update\.zip>\|\n\n\|Flyme", @"update.zip>|\n|Flyme");
                 TextBox_Item.Text = stringFullWiki;
-            }
-            catch (Exception ex)
+            //}
+            /*catch (Exception ex)
             {
 
                 throw;
-            }
+            }*/
         }
     }
 }
