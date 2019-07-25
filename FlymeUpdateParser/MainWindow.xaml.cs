@@ -46,13 +46,12 @@ namespace FlymeUpdateParser
 
         }
 
-
-        private string ProcessItemNew(string stringOrigin)
+        private string ProcessItem(string stringOrigin)
         {
-            string updateLinkOrigin = Regex.Replace(stringOrigin, @"\/http(s)*:\/\/(.*)\/Firmware\/", @"$2");
-            string updateModelIdentifier = Regex.Replace(stringOrigin, @"\/ ([a-zA-Z0-9_]+)\/((\d{1,2}\.){2,3}\d{1,2})\/([a-zA-Z_]+)\/", @"$1");
-            string updateVersion = Regex.Replace(stringOrigin, @"\/([a-zA-Z0-9_]+)\/((\d{1,2}\.){2,3}\d{1,2})\/([a-zA-Z_]+)\/", @"$2");
-            string updateType = Regex.Replace(stringOrigin, @"\/([a-zA-Z0-9_]+)\/((\d{1,2}\.){2,3}\d{1,2})\/([a-zA-Z_]+)\/", @"$4");
+            string updateLinkOrigin = Regex.Replace(stringOrigin, @".*(\n.*)+http(s)*:\/\/(.*)\/Firmware\/.*", @"$3");
+            string updateModelIdentifier = Regex.Replace(stringOrigin, @".*(\n.*)+\/([a-zA-Z0-9_]+)\/((\d{1,2}\.){2,3}\d{1,2})\/([a-zA-Z_]+)\/.*", @"$2");
+            string updateVersion = Regex.Replace(stringOrigin, @".*(\n.*)+\/([a-zA-Z0-9_]+)\/((\d{1,2}\.){2,3}\d{1,2})\/([a-zA-Z_]+)\/.*", @"$3");
+            string updateType = Regex.Replace(stringOrigin, @".*(\n.*)+\/([a-zA-Z0-9_]+)\/((\d{1,2}\.){2,3}\d{1,2})\/([a-zA-Z_]+)\/.*", @"$5");
 
             // 所属类别标识注释
             string commentUpdateOverseas = "";  // 区分国内版/海外版
@@ -288,64 +287,6 @@ namespace FlymeUpdateParser
 
             }
 
-
-            return "";
-        }
-
-
-        private string ProcessItem(string stringOrigin)
-        {
-            string updateVersion = Regex.Replace(stringOrigin, stringRegexMatch, @"$13");
-            string updateType = Regex.Replace(stringOrigin, stringRegexMatch, @"$15");
-            string stringUpdateType;
-            if (updateType == "cn" || updateType == "intl" || updateType == "RU")
-            {
-                updateType = Regex.Replace(updateType, @"cn", @"A").Replace(@"intl", @"G").Replace(@"ru", @"RU");
-                stringUpdateType = "稳定版";
-            }
-            else if (updateType == "cn_beta" || updateType == "intl_beta")
-            {
-                updateType = Regex.Replace(updateType, @"cn_beta", @" beta").Replace(@"intl_beta", @"G beta");
-                stringUpdateType = "体验版";
-            }
-            else if (updateType == "daily")
-            {
-                updateType = Regex.Replace(updateType, @"daily", @" daily");
-                stringUpdateType = "内测版";
-            }
-            else
-            {
-                stringUpdateType = "";
-            }
-            string model = Regex.Replace(stringOrigin, stringRegexMatch, @"$1");
-            string stringCountry = "";
-            if (updateType == "G" || updateType == "G beta")
-            {
-                model += " 国际版";
-                stringCountry = "海外版";
-            }
-            else if (updateType == "RU")
-            {
-                model += " 俄罗斯版";
-                stringCountry = "海外版";
-            }
-            else
-            {
-                model = Regex.Replace(model, @"Meizu", "").Trim();
-                model = Regex.Replace(model, @"PRO 7-H", @"PRO 7 高配版").Replace(@"PRO 7-S", @"PRO 7 标准版");
-                model = Regex.Replace(model, @"V8", @"V8 标配版").Replace(@"V8 标配版 Pro", @"V8 高配版");
-                model = Regex.Replace(model, @"M1 E/M3E", "魅蓝 E").Replace(@"M2 E", @"魅蓝 E2").Replace(@"E3", @"魅蓝 E3");
-                model = Regex.Replace(model, @"M3X", @"魅蓝 X");
-                model = Regex.Replace(model, @"(U[12]0)", @"魅蓝 $1");
-                model = Regex.Replace(model, @"M3 Max", @"魅蓝 Max");
-                model = Regex.Replace(model, @"S6/M6s", @"魅蓝 S6");
-                model = Regex.Replace(model, @"m1\smetal", @"魅蓝 metal");
-                model = Regex.Replace(model, @"Note([89])", @"魅族 note$1");
-                model = Regex.Replace(model, @"[mM]([12356]) [nN]ote", @"魅蓝 note$1");
-                model = Regex.Replace(model, @"[mM]([123568][scT]*)$", @"魅蓝 $1");
-                model = Regex.Replace(model, @"15 Lite", @"M15");
-                stringCountry = "国内版";
-            }
             string updateDate;
             if (releaseDate.Count == 0)
             {
@@ -356,8 +297,8 @@ namespace FlymeUpdateParser
                 updateDate = Regex.Replace(releaseDate[0].Value, @"リリース日は([0-9]{4})年([0-9]{1,2})月([0-9]{1,2})日。", @"$1/$2/$3");
             }
             updateDate = Regex.Replace(updateDate, @"/0([0-9])", @"/$1");
-            string updateComment = "<!--" + model + "|" + stringCountry + "|" + stringUpdateType + "-->";
-            string returnString = updateComment + "|Flyme " + updateVersion + updateType + "|" + model + "|" + updateDate + Regex.Replace(stringOrigin, stringRegexMatch, @"|$3$4B ($5 Bytes)|$7$8B ($9 Bytes)|$10|$11|<$12>|").Replace(@"B ( Bytes)", "");
+            string updateComment = "<!--" + commentUpdateModel + "|" + commentUpdateOverseas + "|" + commentUpdateChannel + "-->";
+            string returnString = updateComment + "|Flyme " + updateVersion + suffixUpdateChannel + "|" + stringUpdateModel + suffixUpdateCountry + "|" + updateDate + Regex.Replace(stringOrigin, stringRegexMatch, @"|$3$4B ($5 Bytes)|$7$8B ($9 Bytes)|$10|$11|<$12>|").Replace(@"B ( Bytes)", "");
             return returnString;
         }
 
