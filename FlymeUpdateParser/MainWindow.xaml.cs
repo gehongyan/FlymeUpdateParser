@@ -23,9 +23,23 @@ namespace FlymeUpdateParser
 
         private void Button_Access_Click(object sender, RoutedEventArgs e)
         {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(TextBox_Url.Text);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            Stream recStream = response.GetResponseStream();
+            StreamReader sr = new StreamReader(recStream, Encoding.UTF8);
+            MatchCollection pageMatches = Regex.Matches(sr.ReadToEnd(), @"<a\shref=""(https://reameizu.com/flyme-update.*/)"".*>", RegexOptions.IgnoreCase);
+            for (int countIndex = pageMatches.Count - 1; countIndex > 0; countIndex--)
+            {
+                ProcessPage(Regex.Replace(pageMatches[countIndex].Value, @"<a\shref=""(https://reameizu.com/flyme-update.*/)"".*>", "$1"));
+            }
+
+        }
+
+        private void ProcessPage(string link)
+        {
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(TextBox_Url.Text);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(link);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 Stream recStream = response.GetResponseStream();
                 StreamReader sr = new StreamReader(recStream, Encoding.UTF8);
@@ -43,7 +57,6 @@ namespace FlymeUpdateParser
             {
                 TextBox_Item.Text = ex.Message;
             }
-
         }
 
         private string ProcessItem(string stringOrigin)
@@ -165,7 +178,7 @@ namespace FlymeUpdateParser
                 case "15": commentUpdateModel = "15"; break;
                 case "M15": commentUpdateModel = "M15"; break;
                 case "15Lite": commentUpdateModel = "M15"; break;
-                case "PRO7_Plus": commentUpdateModel = "PRO7 Plus"; break;
+                case "PRO7_Plus": commentUpdateModel = "PRO 7 Plus"; break;
                 case "PRO7H": commentUpdateModel = "PRO 7 高配版"; break;
                 case "PRO7S": commentUpdateModel = "PRO 7 标准版"; break;
                 case "PRO6_Plus": commentUpdateModel = "PRO 6 Plus"; break;
