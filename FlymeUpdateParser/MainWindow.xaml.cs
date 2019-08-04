@@ -28,10 +28,15 @@ namespace FlymeUpdateParser
             Stream recStream = response.GetResponseStream();
             StreamReader sr = new StreamReader(recStream, Encoding.UTF8);
             MatchCollection pageMatches = Regex.Matches(sr.ReadToEnd(), @"<a\shref=""(https://reameizu.com/flyme-update.*/)"".*>", RegexOptions.IgnoreCase);
-            for (int countIndex = pageMatches.Count - 1; countIndex > 0; countIndex--)
+
+            foreach (Match match in pageMatches)
             {
-                ProcessPage(Regex.Replace(pageMatches[countIndex].Value, @"<a\shref=""(https://reameizu.com/flyme-update.*/)"".*>", "$1"));
+                ProcessPage(Regex.Replace(match.Value, @"<a\shref=""(https://reameizu.com/flyme-update.*/)"".*>", "$1"));
             }
+            //for (int countIndex = pageMatches.Count - 1; countIndex > 0; countIndex--)
+            //{
+            //   ProcessPage(Regex.Replace(pageMatches[countIndex].Value, @"<a\shref=""(https://reameizu.com/flyme-update.*/)"".*>", "$1"));
+            //}
 
         }
 
@@ -173,6 +178,7 @@ namespace FlymeUpdateParser
                 case "16th_Plus": commentUpdateModel = "16th Plus"; break;
                 case "16th": commentUpdateModel = "16th"; break;
                 case "m1926": commentUpdateModel = "16Xs"; break;
+                case "16xs": commentUpdateModel = "16Xs"; break;
                 case "16": commentUpdateModel = "16 X"; break;
                 case "15_Plus": commentUpdateModel = "15 Plus"; break;
                 case "15": commentUpdateModel = "15"; break;
