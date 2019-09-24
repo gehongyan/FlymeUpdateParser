@@ -94,7 +94,7 @@ namespace FlymeUpdateParser
                         case "intl_beta":
                             suffixUpdateCountry = " 国际版";
                             break;
-                        case "RU":
+                        case "ru":
                             suffixUpdateCountry = " 俄罗斯版";
                             break;
                         case "cn":
@@ -112,7 +112,7 @@ namespace FlymeUpdateParser
             switch (updateType)
             {
                 case "cn":
-                case "RU":
+                case "ru":
                 case "intl":
                     commentUpdateChannel = "稳定版";
                     break;
@@ -143,7 +143,7 @@ namespace FlymeUpdateParser
                             break;
                     }
                     break;
-                case "RU":
+                case "ru":
                     suffixUpdateChannel = "RU";
                     break;
                 case "intl":
@@ -174,6 +174,8 @@ namespace FlymeUpdateParser
             // 处理机型注释信息
             switch (updateModelIdentifier)
             {
+                case "16s_Pro": commentUpdateModel = "16s Pro"; break;
+                case "m1973": commentUpdateModel = "16s Pro"; break;
                 case "16s": commentUpdateModel = "16s"; break;
                 case "16th_Plus": commentUpdateModel = "16th Plus"; break;
                 case "16th": commentUpdateModel = "16th"; break;
@@ -243,9 +245,12 @@ namespace FlymeUpdateParser
                 case "海外版":
                     switch (updateModelIdentifier)
                     {
+                        case "16s_Pro": stringUpdateModel = "Meizu 16s Pro"; break;
+                        case "m1973": stringUpdateModel = "Meizu 16s Pro"; break;
                         case "16s": stringUpdateModel = "Meizu 16s"; break;
                         case "16th_Plus": stringUpdateModel = "Meizu 16th Plus"; break;
                         case "16th": stringUpdateModel = "Meizu 16th"; break;
+                        case "16xs": stringUpdateModel = "Meizu 16Xs"; break;
                         case "m1926": stringUpdateModel = "Meizu 16Xs"; break;
                         case "16": stringUpdateModel = "Meizu 16"; break;
                         case "15_Plus": stringUpdateModel = "Meizu 15 Plus"; break;
@@ -370,6 +375,79 @@ namespace FlymeUpdateParser
 
                 throw;
             }*/
+        }
+
+
+        private string CreateWiki(string model)
+        {
+            string stringTitle = "";
+            stringTitle += "### " + model + "\n\n";
+            stringTitle += "#### 国内版" + "\n\n";
+            stringTitle += "##### 稳定版" + "\n" + "<!--" + model + "|国内版|稳定版-->" + "\n";
+            stringTitle += "|版本|机型|时间|大小|占用空间|MD5|SHA1|下载链接|\n|----|----|----|----|----|----|----|----| " + "\n\n";
+            stringTitle += "##### 体验版" + "\n" + "<!--" + model + "|国内版|体验版-->"+"\n";
+            stringTitle += "|版本|机型|时间|大小|占用空间|MD5|SHA1|下载链接|\n|----|----|----|----|----|----|----|----| " + "\n\n";
+            stringTitle += "#### 海外版" + "\n\n";
+            stringTitle += "##### 稳定版" + "\n" + "<!--" + model + "|海外版|稳定版-->"+"\n";
+            stringTitle += "|版本|机型|时间|大小|占用空间|MD5|SHA1|下载链接|\n|----|----|----|----|----|----|----|----| " + "\n\n";
+            stringTitle += "##### 体验版" + "\n" + "<!--" + model + "|海外版|体验版-->"+"\n";
+            stringTitle += "|版本|机型|时间|大小|占用空间|MD5|SHA1|下载链接|\n|----|----|----|----|----|----|----|----| " + "\n\n";
+
+            return stringTitle;
+        }
+
+        private void Button_Initial_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_Item.Text = "";
+            TextBox_Item.Text += CreateWiki("16s Pro");
+            TextBox_Item.Text += CreateWiki("16s");
+            TextBox_Item.Text += CreateWiki("16th Plus");
+            TextBox_Item.Text += CreateWiki("16th");
+            TextBox_Item.Text += CreateWiki("16Xs");
+            TextBox_Item.Text += CreateWiki("16 X");
+            TextBox_Item.Text += CreateWiki("15 Plus");
+            TextBox_Item.Text += CreateWiki("15");
+            TextBox_Item.Text += CreateWiki("M15");
+            TextBox_Item.Text += CreateWiki("PRO 7 Plus");
+            TextBox_Item.Text += CreateWiki("PRO 7 高配版");
+            TextBox_Item.Text += CreateWiki("PRO 7 标准版");
+            TextBox_Item.Text += CreateWiki("PRO 6 Plus");
+            TextBox_Item.Text += CreateWiki("PRO 6/PRO 6s");
+            TextBox_Item.Text += CreateWiki("PRO 5");
+            TextBox_Item.Text += CreateWiki("MX6");
+            TextBox_Item.Text += CreateWiki("MX5");
+            TextBox_Item.Text += CreateWiki("MX4 Pro");
+            TextBox_Item.Text += CreateWiki("MX4");
+            TextBox_Item.Text += CreateWiki("V8 标配版");
+            TextBox_Item.Text += CreateWiki("V8 高配版");
+            TextBox_Item.Text += CreateWiki("Note9");
+            TextBox_Item.Text += CreateWiki("Note8");
+            TextBox_Item.Text += CreateWiki("X8");
+            TextBox_Item.Text += CreateWiki("魅蓝 X");
+            TextBox_Item.Text += CreateWiki("魅蓝 E3");
+            TextBox_Item.Text += CreateWiki("魅蓝 E2");
+            TextBox_Item.Text += CreateWiki("魅蓝 E");
+            TextBox_Item.Text += CreateWiki("魅蓝 Max");
+            TextBox_Item.Text += CreateWiki("魅蓝 U20");
+            TextBox_Item.Text += CreateWiki("魅蓝 U10");
+            TextBox_Item.Text += CreateWiki("魅蓝 metal");
+            TextBox_Item.Text += CreateWiki("魅蓝 Note6");
+            TextBox_Item.Text += CreateWiki("魅蓝 Note5");
+            TextBox_Item.Text += CreateWiki("魅蓝 Note3");
+            TextBox_Item.Text += CreateWiki("魅蓝 note2");
+            TextBox_Item.Text += CreateWiki("魅蓝 note");
+            TextBox_Item.Text += CreateWiki("魅蓝 8c");
+            TextBox_Item.Text += CreateWiki("魅蓝 S6");
+            TextBox_Item.Text += CreateWiki("魅蓝 6T");
+            TextBox_Item.Text += CreateWiki("魅蓝 6");
+            TextBox_Item.Text += CreateWiki("魅蓝 5s");
+            TextBox_Item.Text += CreateWiki("魅蓝 5c");
+            TextBox_Item.Text += CreateWiki("魅蓝 5");
+            TextBox_Item.Text += CreateWiki("魅蓝 3s");
+            TextBox_Item.Text += CreateWiki("魅蓝 3");
+            TextBox_Item.Text += CreateWiki("魅蓝 2");
+            TextBox_Item.Text += CreateWiki("魅蓝");
+
         }
     }
 }
